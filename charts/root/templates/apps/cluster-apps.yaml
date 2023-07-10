@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-apps
+spec:
+  project: {{ .Values.projectName }}
+  source:
+    path: charts/cluster-apps
+    targetRevision: {{ .Values.version }}
+    repoURL: {{ .Values.repoUrl }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo-cd
+

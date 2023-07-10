@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kiali-operator
+spec:
+  project: {{ .Values.projectName }}
+  source:
+    chart: kiali-operator
+    repoURL: {{ .Values.kiali.repo }}
+    targetRevision: {{ .Values.kiali.version }}
+    {{- include "lib.helmValues" .Values.kiali.values | nindent 4 }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kiali-operator
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

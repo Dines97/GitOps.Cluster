@@ -1,0 +1,18 @@
+{{- if .Capabilities.APIVersions.Has "networking.istio.io/v1alpha3" -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: argo-cd-gateway
+  namespace: {{ .Values.argo_cd.namespace }}
+spec:
+  selector:
+    istio: gateway
+  servers:
+    - hosts:
+      - 'argocd.{{ .Values.domain }}'
+      port:
+        name: http
+        number: 80
+        protocol: HTTP
+{{- end -}}
+

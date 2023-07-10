@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-workflows
+spec:
+  project: {{ .Values.projectName }}
+  source:
+    chart: argo-workflows
+    targetRevision: {{ .Values.argo_workflows.version }}
+    repoURL: {{ .Values.repoUrl }}
+    {{- include "lib.helmValues" .Values.argo_workflows.values | nindent 4 }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo-workflows
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+
+

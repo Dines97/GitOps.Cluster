@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-project
+spec:
+  project: cluster-apps
+  source:
+    path: demo-project
+    targetRevision: HEAD
+    repoURL: https://dtalm@dev.azure.com/dtalm/TurkuazGO/_git/GitOps.Deployment
+    helm:
+      valueFiles:
+        - values.test.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo-project-default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+

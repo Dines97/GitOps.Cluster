@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ .Values.projectName }}
+  namespace: argo-cd
+spec:
+  sourceRepos:
+  - {{ .Values.istio.repo }}
+  - {{ .Values.kiali.repo }}
+  destinations:
+  - namespace: '*'
+    server: '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  orphanedResources:
+    warn: true

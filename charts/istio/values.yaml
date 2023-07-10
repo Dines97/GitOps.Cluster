@@ -1,0 +1,24 @@
+projectName: istio
+domain: turkuazmonitoring.com.tr
+
+istio:
+  version: 1.16.0
+  namespace: istio-system
+  repo: https://istio-release.storage.googleapis.com/charts
+
+kiali:
+  version: 1.61.0
+  repo: https://kiali.org/helm-charts
+  values: |
+    cr:
+      create: true
+      namespace: istio-system
+      spec:
+        auth:
+          strategy: "anonymous"
+        external_services:
+          tracing:
+            enabled: true
+            in_cluster_url: 'http://jaeger-operator-jaeger-query.jaeger-operator:16685/jaeger'
+            use_grpc: true
+            url: 'http://my-jaeger-host/jaeger'

@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: demo-project
+spec:
+  generators:
+  - list:
+      elements:
+      - env: test
+      - env: prod
+  template:
+    metadata:
+      name: '{{ printf "{{env}}" }}-demo-project'
+    spec:
+      project: cluster-apps
+      source:
+        path: demo-project
+        targetRevision: HEAD
+        repoURL: https://dtalm@dev.azure.com/dtalm/TurkuazGO/_git/GitOps.Deployment
+        helm:
+          valueFiles:
+          - values.{{ printf "{{env}}" }}.yaml
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{ printf "{{env}}" }}-demo-project'
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=true

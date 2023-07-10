@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mix
+spec:
+  project: {{ .Values.projectName }}
+  source:
+    path: charts/mix/
+    targetRevision: {{ .Values.version }}
+    repoURL: {{ .Values.repoUrl }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo-cd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

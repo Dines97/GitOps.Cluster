@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-cd
+spec:
+  project: {{ .Values.projectName }}
+  source:
+    chart: argo-cd
+    targetRevision: {{ .Values.argo_cd.version }}
+    repoURL: {{ .Values.repoUrl }}
+    {{- include "lib.helmValues" .Values.argo_cd.values | nindent 4 }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo-cd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+

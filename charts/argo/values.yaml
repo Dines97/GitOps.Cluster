@@ -1,0 +1,24 @@
+repoUrl: https://argoproj.github.io/argo-helm
+projectName: argo
+domain: gitops.io
+
+argo_cd:
+  namespace: argo-cd
+  version: 5.36.13
+  values: |
+    server:
+      extraArgs:
+        - --insecure
+        - --disable-auth
+
+argo_rollouts:
+  version: 2.21.1
+  values: |
+    dashboard:
+      enabled: true
+
+argo_events:
+  version: 2.0.7
+
+argo_workflows:
+  version: 0.22.1

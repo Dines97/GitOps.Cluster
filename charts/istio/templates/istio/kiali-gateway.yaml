@@ -1,0 +1,18 @@
+{{- if .Capabilities.APIVersions.Has "networking.istio.io/v1alpha3" -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: kiali-gateway
+  namespace: {{ .Values.istio.namespace }}
+spec:
+  selector:
+    istio: gateway
+  servers:
+    - hosts:
+      - 'kiali.{{ .Values.domain }}'
+      port:
+        name: http
+        number: 80
+        protocol: HTTP
+{{- end -}}
+

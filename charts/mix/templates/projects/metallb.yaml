@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: metallb
+  namespace: argo-cd
+spec:
+  sourceRepos:
+    - https://metallb.github.io/metallb
+  destinations:
+  - namespace: metallb-system
+    server: '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  orphanedResources:
+    warn: true

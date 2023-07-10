@@ -1,0 +1,18 @@
+{{- if .Capabilities.APIVersions.Has "networking.istio.io/v1alpha3" -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: argo-cd-virtual-service
+  namespace: {{ .Values.argo_cd.namespace }}
+spec:
+  hosts:
+    - argocd.{{ .Values.domain }}
+  gateways:
+    - argo-cd-gateway
+  http:
+    - route:
+        - destination:
+            host: argo-cd-argocd-server
+            port:
+              number: 80
+{{- end -}}

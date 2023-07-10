@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: cluster-apps
+  namespace: argo-cd
+spec:
+  sourceRepos:
+  - https://dtalm@dev.azure.com/dtalm/TurkuazGO/_git/GitOps.Deployment
+  destinations:
+  - namespace: '*'
+    server: '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  orphanedResources:
+    warn: true

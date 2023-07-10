@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-rollouts
+spec:
+  project: {{ .Values.projectName }}
+  source:
+    chart: argo-rollouts
+    targetRevision: {{ .Values.argo_rollouts.version }}
+    repoURL: {{ .Values.repoUrl }}
+    {{- include "lib.helmValues" .Values.argo_rollouts.values | nindent 4 }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo-rollouts
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+
+
